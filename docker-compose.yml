@@ -1,0 +1,18 @@
+version: '3'
+services:
+#  api:
+#    command: yarn run start-dev
+#    ports:
+#    - "8080:4000"
+#    - "9020:9020"
+#    build: .
+#    volumes:
+#      - ./dist:/srv/dist
+#      - ./schema.graphql:/srv/schema.graphql
+#      - ./package.json:/srv/package.json
+#      - ./yarn.lock:/srv/yarn.lock
+
+  graph-db:
+    image: 587250238214.dkr.ecr.us-east-1.amazonaws.com/freshit-neo4j-db:latest
+    ports:
+      - "7687:7687"
