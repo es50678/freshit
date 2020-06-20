@@ -1,0 +1,11 @@
+{
+  "name": "freshit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Eduardo Hernandez Soto <es50678@gmail.com>",
+  "license": "MIT",
+  "volta": {
+    "node": "12.18.1",
+    "yarn": "1.22.4"
+  }
+}
