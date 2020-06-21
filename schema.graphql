@@ -1,0 +1,52 @@
+# never send passcode to a client
+type User {
+  id: ID!
+  name: String!
+  email: String!
+
+  """
+  user may have categories - if no categories exist, will return empty string
+  """
+  categories: [Category]!
+  """
+  user may have durations - if no durations exist, will return empty string
+  """
+  durations: [Duration]!
+}
+
+type Category {
+  name: String!
+
+  """
+  category may have durations - if no durations exist, will return empty string
+  """
+  durations: [Duration]!
+  """
+  category must always have a user
+  """
+  user: User!
+}
+
+type Duration {
+  """
+  length of duration string in the iso 8601 format
+  """
+  length: String!
+  """
+  unix timestamp(seconds) of the start of duration
+  """
+  start: Int!
+  """
+  unix timestamp(seconds) of end of duration
+  """
+  end: Int
+
+  """
+  duration must always be part of a category
+  """
+  category: Category!
+  """
+  duration must always have a user
+  """
+  user: User!
+}
