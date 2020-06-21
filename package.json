@@ -5,7 +5,7 @@
   "name": "freshit",
   "version": "1.0.0",
   "scripts": {
-    "start-dev": "echo \"nodemon -L -e js,json,graphql --inspect=0.0.0.0:9020 dist/index.js\""
+    "start-dev": "nodemon -L -e js,json,graphql --inspect=0.0.0.0:9020 dist/index.js"
   },
   "volta": {
     "node": "12.18.1",
@@ -19,6 +19,8 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "apollo-server": "^2.15.0",
+    "graphql-import": "^1.0.2",
     "moment": "^2.27.0"
   }
 }

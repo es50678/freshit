@@ -15,6 +15,7 @@ type User {
 }
 
 type Category {
+  id: ID!
   name: String!
 
   """
@@ -28,6 +29,7 @@ type Category {
 }
 
 type Duration {
+  id: ID!
   """
   length of duration string in the iso 8601 format
   """
@@ -49,4 +51,8 @@ type Duration {
   duration must always have a user
   """
   user: User!
+}
+
+type Query {
+  category(id: ID!): Category
 }
