@@ -1,12 +1,15 @@
-
 const resolvers = {
   Query: {
-    category(parent, { id }) {
+    async category(parent, { id }, { dataSources }) {
+      const result = await dataSources.category.findCategoryById({ id });
+      const category = result.get('category').properties;
+
       return {
-        name: "Verification/Validation"
+        id: category.id,
+        name: category.name
       }
     }
   }
 }
 
-export = resolvers;
+export default resolvers;
