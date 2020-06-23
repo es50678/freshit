@@ -21,9 +21,20 @@ export default class Category extends DataSource {
     this.context = config.context
   }
 
+  async createCategory({ name }) {
+    const result = await this.create({ name });
+    return result;
+  }
+
   async findCategoryById({ id }) {
     const result = await this.session.run('MATCH (category:Category {id: $id}) RETURN category', { id });
 
     return result.records[0];
+  }
+
+  async create(params) {
+    const idBuildCommand = 'randomUUID()';
+    params.id = idBuildCommand;
+    return await this.session.run('CREATE (category:Category $params) RETURN category', {params});
   }
 }
