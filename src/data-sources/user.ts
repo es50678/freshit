@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import driver from '../lib/neo4j-driver';
 
-export default class Category extends DataSource {
+export default class User extends DataSource {
   context: any;
   session: any;
 
@@ -22,13 +22,13 @@ export default class Category extends DataSource {
     this.context = config.context
   }
 
-  async createCategory({ name }) {
-    const result = await this.create({ name });
-    return result;
+  async createUser({ name, email, passcode }) {
+    const result = await this.create({ name, email, passcode });
+    return result.records[0];
   }
 
-  async findCategoryById({ id }) {
-    const result = await this.session.run('MATCH (category:Category {id: $id}) RETURN category', { id });
+  async findUserById({ id }) {
+    const result = await this.session.run('MATCH (user:User {id: $id}) RETURN user', { id });
 
     return result.records[0];
   }
@@ -36,6 +36,6 @@ export default class Category extends DataSource {
   async create(params) {
     const idBuildCommand = uuidv4();
     params.id = idBuildCommand;
-    return await this.session.run('CREATE (category:Category $params) RETURN category', {params});
+    return await this.session.run('CREATE (user:User $params) RETURN user', {params});
   }
 }

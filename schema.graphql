@@ -53,6 +53,12 @@ type Duration {
   user: User!
 }
 
+type Mutation {
+  createCategory(name: String!): Category
+  createUser(name: String! email: String!, passcode: String!): User
+}
+
 type Query {
   category(id: ID!): Category
+  user(id: ID!): Category
 }
