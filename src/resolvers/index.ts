@@ -22,6 +22,9 @@ const resolvers = {
         id: category.id,
         name: category.name
       }
+    },
+    async user(parent, { id }, { dataSources }) {
+      return await dataSources.user.findUserById({ id });
     }
   }
 }

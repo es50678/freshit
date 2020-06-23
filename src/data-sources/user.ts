@@ -29,13 +29,23 @@ export default class User extends DataSource {
 
   async findUserById({ id }) {
     const result = await this.session.run('MATCH (user:User {id: $id}) RETURN user', { id });
+    const record = result.records[0];
+    const user = record.get('user').properties;
 
-    return result.records[0];
+    return this.reducer(user);
   }
 
   async create(params) {
-    const idBuildCommand = uuidv4();
-    params.id = idBuildCommand;
+    params.id = uuidv4();
+
     return await this.session.run('CREATE (user:User $params) RETURN user', {params});
+  }
+
+  reducer(user) {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email
+    }
   }
 }

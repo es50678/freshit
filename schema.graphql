@@ -60,5 +60,6 @@ type Mutation {
 
 type Query {
   category(id: ID!): Category
-  user(id: ID!): Category
+  user(id: ID!): User
+  userByEmail(email: String!): User
 }
