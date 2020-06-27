@@ -1,15 +1,13 @@
-import driver from '../../lib/neo4j-driver';
 import Category from './category';
+import neo4jModel from './neo4j-model';
 
-export default class User {
-  session: any;
-  id: string;
-  name: string;
-  email: string;
-  categories: [Category?] = [];
+export default class User extends neo4jModel{
+  public name: string;
+  public email: string;
+  public categories: [Category?] = [];
 
   constructor(user) {
-    this.session = driver.session();
+    super();
 
     this.id = user.id;
     this.name = user.name;
