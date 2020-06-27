@@ -1,12 +1,12 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import driver from '../../lib/neo4j-driver';
+import Category from './category';
 
 export default class User {
   session: any;
   id: string;
   name: string;
   email: string;
+  categories: [Category?] = [];
 
   constructor(user) {
     this.session = driver.session();
@@ -14,5 +14,18 @@ export default class User {
     this.id = user.id;
     this.name = user.name;
     this.email = user.email;
+  }
+
+  async getCategories() {
+    const query = 'MATCH (user:User {id: $id})-[:OWNS]-(categories:Category) \n RETURN categories'
+    const result = await this.session.run(query, { id: this.id });
+    const records = result.records;
+
+    records.forEach((record) => {
+      const properties = record.get('categories').properties
+      this.categories.push(new Category(properties));
+    });
+
+    return this.categories;
   }
 }

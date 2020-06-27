@@ -1,7 +1,7 @@
 const resolvers = {
   User: {
     categories(user, args, { dataSources }) {
-      return [];
+      return user.getCategories();
     }
   },
   Mutation: {
