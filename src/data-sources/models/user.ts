@@ -1,10 +1,10 @@
 import Category from './category';
-import neo4jModel from './neo4j-model';
+import Base from './base';
 
-export default class User extends neo4jModel{
-  public name: string;
-  public email: string;
-  public categories: [Category?] = [];
+export default class User extends Base {
+  name: string;
+  email: string;
+  categories: [Category?] = [];
 
   constructor(user) {
     super();
