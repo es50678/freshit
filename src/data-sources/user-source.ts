@@ -2,8 +2,9 @@ import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { v4 as uuidv4 } from 'uuid';
 
 import driver from '../lib/neo4j-driver';
+import User from './models/user';
 
-export default class User extends DataSource {
+export default class UserSource extends DataSource {
   context: any;
   session: any;
 
@@ -32,20 +33,12 @@ export default class User extends DataSource {
     const record = result.records[0];
     const user = record.get('user').properties;
 
-    return this.reducer(user);
+    return new User(user);
   }
 
   async create(params) {
     params.id = uuidv4();
 
     return await this.session.run('CREATE (user:User $params) RETURN user', {params});
-  }
-
-  reducer(user) {
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email
-    }
   }
 }
