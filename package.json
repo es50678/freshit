@@ -19,6 +19,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@types/uuid": "^8.0.0",
     "apollo-server": "^2.15.0",
     "graphql-import": "^1.0.2",
     "moment": "^2.27.0",

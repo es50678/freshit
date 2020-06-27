@@ -1,12 +1,14 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { v4 as uuidv4 } from 'uuid';
+import Session from 'neo4j-driver/types/session';
 
 import driver from '../lib/neo4j-driver';
 import User from './models/user';
+import UserPropertiesInterface from './models/interfaces/user-properties';
 
 export default class UserSource extends DataSource {
   context: any;
-  session: any;
+  session: Session;
 
   constructor() {
     super();
@@ -31,7 +33,7 @@ export default class UserSource extends DataSource {
   async findUserById({ id }) {
     const result = await this.session.run('MATCH (user:User {id: $id}) RETURN user', { id });
     const record = result.records[0];
-    const user = record.get('user').properties;
+    const user: UserPropertiesInterface = record.get('user').properties;
 
     return new User(user);
   }
