@@ -7,7 +7,8 @@ export default abstract class Base implements BaseInterface {
 
   protected session: Session;
 
-  protected constructor() {
+  protected constructor(implementor: BaseInterface) {
     this.session = driver.session();
+    this.id = implementor.id;
   }
 }

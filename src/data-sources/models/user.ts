@@ -9,9 +9,8 @@ export default class User extends Base implements UserPropertiesInterface {
   #categories: [Category?] = [];
 
   constructor(userProperties: UserPropertiesInterface) {
-    super();
+    super(userProperties);
 
-    this.id = userProperties.id;
     this.name = userProperties.name;
     this.email = userProperties.email;
   }

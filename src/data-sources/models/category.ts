@@ -1,14 +1,13 @@
-import driver from '../../lib/neo4j-driver';
+import Base from './base';
+import CategoryPropertiesInterface from './interfaces/category-properties';
 
-export default class Category {
-  session: any;
-  id: string;
+export default class Category extends Base implements CategoryPropertiesInterface{
   name: string;
 
-  constructor(category) {
-    this.session = driver.session();
+  constructor(categoryProperties: CategoryPropertiesInterface) {
+    super(categoryProperties);
 
-    this.id = category.id;
-    this.name = category.name;
+    this.id = categoryProperties.id;
+    this.name = categoryProperties.name;
   }
 }
