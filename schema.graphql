@@ -62,6 +62,7 @@ type Mutation {
 }
 
 type Query {
+  duration(id: ID!): Duration
   category(id: ID!): Category
   user(id: ID!): User
   userByEmail(email: String!): User

@@ -78,6 +78,9 @@ const resolvers = {
     category(_: null, { id }: { id: string }, { dataSources }: Context): Promise<Category> {
       return dataSources.category.findCategoryById({ id });
     },
+    duration(_: null, { id }: { id: string }, { dataSources }: Context): Promise<Duration> {
+      return dataSources.duration.findDurationById({ id });
+    },
     user(_: null, { id }: { id: string }, { dataSources }: Context): Promise<User> {
       return dataSources.user.findUserById({ id });
     },

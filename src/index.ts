@@ -4,6 +4,7 @@ import typeDefs from './scheme';
 import resolvers from './resolvers';
 import UserSource from './data-sources/user-source';
 import CategorySource from './data-sources/category-source';
+import DurationSource from './data-sources/duration-source';
 
 const server = new ApolloServer({
   resolvers,
@@ -20,8 +21,9 @@ const server = new ApolloServer({
   },
   dataSources() {
     return {
-      user: new UserSource(),
-      category: new CategorySource()
+      category: new CategorySource(),
+      duration: new DurationSource(),
+      user: new UserSource()
     }
   }
 });
