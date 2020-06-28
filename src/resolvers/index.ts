@@ -69,6 +69,9 @@ const resolvers = {
     }
   },
   Mutation: {
+    createCategory(_: undefined, { name }: { name: string }, { dataSources }: Context): Promise<Category> {
+      return dataSources.category.createCategory({ name });
+    },
     createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {
       return dataSources.user.createUser({ name, email, passcode });
     },
