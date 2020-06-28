@@ -72,6 +72,9 @@ const resolvers = {
     }
   },
   Query: {
+    category(_: null, { id }: { id: string }, { dataSources }: Context): Promise<Category> {
+      return dataSources.category.findCategoryById({ id });
+    },
     user(_: undefined, { id }: { id: string }, { dataSources }: Context): Promise<User> {
       return dataSources.user.findUserById({ id });
     },
