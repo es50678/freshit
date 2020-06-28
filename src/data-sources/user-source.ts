@@ -1,12 +1,9 @@
-import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { v4 as uuidv4 } from 'uuid';
-import Session from 'neo4j-driver/types/session';
 
-import driver from '../lib/neo4j-driver';
 import User from './models/user';
 import UserPropertiesInterface from './models/interfaces/user-properties';
 import Result from 'neo4j-driver/types/result';
-import { ContextInterface } from './interfaces/context';
+import BaseSource from './base-source';
 
 export interface UserCreationOptions {
   id?: string,
@@ -15,23 +12,10 @@ export interface UserCreationOptions {
   passcode: string
 }
 
-export default class UserSource extends DataSource {
-  context: ContextInterface | undefined;
-  session: Session;
+export default class UserSource extends BaseSource {
 
   constructor() {
     super();
-    this.session = driver.session();
-  }
-
-  /**
-   * This is a function that gets called by ApolloServer when being setup.
-   * This function gets called with the datasource config including things
-   * like caches and context. We'll assign this.context to the request context
-   * here, so we can know about the user making requests
-   */
-  initialize(config: DataSourceConfig<ContextInterface>): void | Promise<void> {
-    this.context = config.context
   }
 
   async createUser({ name, email, passcode }: UserCreationOptions): Promise<User> {

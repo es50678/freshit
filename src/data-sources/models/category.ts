@@ -18,7 +18,7 @@ export default class Category extends Base implements CategoryPropertiesInterfac
 
   async durations(): Promise<[Duration?]> {
     const query = 'MATCH (category:Category {id: $id})-[:CONTAINS]-(durations:Duration) \n RETURN durations';
-    const result = await this.session().run(query, { id: this.id });
+    const result = await this.session.run(query, { id: this.id });
     const records = result.records;
 
     records.forEach((record) => {
@@ -31,7 +31,7 @@ export default class Category extends Base implements CategoryPropertiesInterfac
 
   async user(): Promise<User> {
     const query = 'MATCH (category:Category {id: $id})-[:OWNS]-(user:User) \n RETURN user';
-    const result = await this.session().run(query, { id: this.id });
+    const result = await this.session.run(query, { id: this.id });
     const record = result.records[0];
 
     const properties: UserPropertiesInterface = record.get('user').properties;

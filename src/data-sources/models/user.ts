@@ -22,7 +22,7 @@ export default class User extends Base implements UserPropertiesInterface {
 
   async categories(): Promise<[Category?]> {
     const query = 'MATCH (user:User {id: $id})-[:OWNS]-(categories:Category) \n RETURN categories';
-    const result = await this.session().run(query, { id: this.id });
+    const result = await this.session.run(query, { id: this.id });
     const records = result.records;
 
     records.forEach((record) => {
@@ -35,7 +35,7 @@ export default class User extends Base implements UserPropertiesInterface {
 
   async durations(): Promise<[Duration?]> {
     const query = 'MATCH (user:User {id: $id})-[:RECORDS]-(durations:Duration) \n RETURN durations';
-    const result = await this.session().run(query, { id: this.id });
+    const result = await this.session.run(query, { id: this.id });
     const records = result.records;
 
     records.forEach((record) => {
