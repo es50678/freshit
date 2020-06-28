@@ -1,3 +1,5 @@
+scalar DateTime
+scalar TimeDuration
 # never send passcode to a client
 type User {
   id: ID!
@@ -33,15 +35,15 @@ type Duration {
   """
   length of duration string in the iso 8601 format
   """
-  length: String
+  length: TimeDuration
   """
   unix timestamp(seconds) of the start of duration
   """
-  start: Int!
+  start: DateTime!
   """
   unix timestamp(seconds) of end of duration
   """
-  end: Int
+  end: DateTime
 
   """
   duration must always be part of a category
