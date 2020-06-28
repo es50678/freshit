@@ -33,7 +33,7 @@ type Duration {
   """
   length of duration string in the iso 8601 format
   """
-  length: String!
+  length: String
   """
   unix timestamp(seconds) of the start of duration
   """

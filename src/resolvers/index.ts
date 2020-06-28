@@ -1,11 +1,16 @@
 import Category from '../data-sources/models/category';
 import User from '../data-sources/models/user';
 import { ContextInterface, UserCreationOptions as UserArgs} from '../data-sources/user-source';
+import Duration from '../data-sources/models/duration';
 
 const resolvers = {
   User: {
     categories(user: User): Promise<[Category?]> {
       return user.categories();
+    },
+    async durations(user: User): Promise<[Duration?]> {
+      const duartions = await user.durations();
+      return duartions;
     }
   },
   Mutation: {

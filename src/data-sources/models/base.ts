@@ -5,10 +5,11 @@ import BaseInterface from './interfaces/base';
 export default abstract class Base implements BaseInterface {
   id: string = '';
 
-  protected session: Session;
-
   protected constructor(implementor: BaseInterface) {
-    this.session = driver.session();
     this.id = implementor.id;
+  }
+
+  protected session(): Session {
+    return driver.session();
   }
 }

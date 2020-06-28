@@ -7,7 +7,6 @@ export default class Category extends Base implements CategoryPropertiesInterfac
   constructor(categoryProperties: CategoryPropertiesInterface) {
     super(categoryProperties);
 
-    this.id = categoryProperties.id;
     this.name = categoryProperties.name;
   }
 }
