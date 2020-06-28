@@ -49,6 +49,14 @@ export default class UserSource extends DataSource {
     return new User(user);
   }
 
+  async findUserByEmail({ email }: { email: string }): Promise<User> {
+    const result = await this.session.run('MATCH (user:User {email: $email}) RETURN user', { email });
+    const record = result.records[0];
+    const user: UserPropertiesInterface = record.get('user').properties;
+
+    return new User(user);
+  }
+
   async findUserById({ id }: { id: string }): Promise<User> {
     const result = await this.session.run('MATCH (user:User {id: $id}) RETURN user', { id });
     const record = result.records[0];

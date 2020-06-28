@@ -59,6 +59,9 @@ const resolvers = {
   Query: {
     user(_: undefined, { id }: { id: string }, { dataSources }: ContextInterface): Promise<User> {
       return dataSources.user.findUserById({ id });
+    },
+    userByEmail(_: undefined, { email }: { email: string },  { dataSources }: ContextInterface): Promise<User> {
+      return dataSources.user.findUserByEmail({ email });
     }
   }
 }
