@@ -8,7 +8,7 @@ import DurationPropertiesInterface from './interfaces/duration-properties';
 export default class User extends Base implements UserPropertiesInterface {
   name: string;
   email: string;
-  passcode: string | undefined;
+  #passcode: string;
   #categories: [Category?] = [];
   #durations: [Duration?] = [];
 
@@ -17,7 +17,7 @@ export default class User extends Base implements UserPropertiesInterface {
 
     this.name = userProperties.name;
     this.email = userProperties.email;
-    this.passcode = userProperties.passcode;
+    this.#passcode = userProperties.passcode;
   }
 
   async categories(): Promise<[Category?]> {
@@ -44,5 +44,9 @@ export default class User extends Base implements UserPropertiesInterface {
     });
 
     return this.#durations;
+  }
+
+  get passcode(): string {
+    return this.#passcode;
   }
 }
