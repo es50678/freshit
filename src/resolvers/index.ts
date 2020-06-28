@@ -43,6 +43,11 @@ const timeDurationScalar = new GraphQLScalarType({
 const resolvers = {
   DateTime: dateTimeScalar,
   TimeDuration: timeDurationScalar,
+  Category: {
+    durations(category: Category): Promise<[Duration?]> {
+      return category.durations();
+    }
+  },
   User: {
     categories(user: User): Promise<[Category?]> {
       return user.categories();
