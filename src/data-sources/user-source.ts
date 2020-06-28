@@ -6,14 +6,7 @@ import driver from '../lib/neo4j-driver';
 import User from './models/user';
 import UserPropertiesInterface from './models/interfaces/user-properties';
 import Result from 'neo4j-driver/types/result';
-
-interface DataSourcesInterface {
-  user: UserSource
-}
-
-export interface ContextInterface {
-  dataSources: DataSourcesInterface;
-}
+import { ContextInterface } from './interfaces/context';
 
 export interface UserCreationOptions {
   id?: string,

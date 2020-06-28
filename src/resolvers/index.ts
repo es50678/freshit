@@ -3,7 +3,8 @@ import { GraphQLScalarType, Kind } from 'graphql';
 
 import Category from '../data-sources/models/category';
 import User from '../data-sources/models/user';
-import { ContextInterface as Context, UserCreationOptions as UserArgs} from '../data-sources/user-source';
+import { UserCreationOptions as UserArgs} from '../data-sources/user-source';
+import { ContextInterface as Context } from '../data-sources/interfaces/context';
 import Duration from '../data-sources/models/duration';
 
 const dateTimeScalar = new GraphQLScalarType({
