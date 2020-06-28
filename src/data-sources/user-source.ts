@@ -11,11 +11,11 @@ interface DataSourcesInterface {
   user: UserSource
 }
 
-interface ContextInterface {
+export interface ContextInterface {
   dataSources: DataSourcesInterface;
 }
 
-interface UserCreationOptions {
+export interface UserCreationOptions {
   id?: string,
   name: string,
   email: string,
