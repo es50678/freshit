@@ -52,6 +52,14 @@ const resolvers = {
       return category.user();
     }
   },
+  Duration: {
+    category(duration: Duration): Promise<Category> {
+      return duration.category();
+    },
+    user(duration: Duration): Promise<User> {
+      return duration.user();
+    }
+  },
   User: {
     categories(user: User): Promise<[Category?]> {
       return user.categories();
