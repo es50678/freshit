@@ -5,9 +5,25 @@ import Session from 'neo4j-driver/types/session';
 import driver from '../lib/neo4j-driver';
 import User from './models/user';
 import UserPropertiesInterface from './models/interfaces/user-properties';
+import Result from 'neo4j-driver/types/result';
+
+interface DataSourcesInterface {
+  user: UserSource
+}
+
+interface ContextInterface {
+  dataSources: DataSourcesInterface;
+}
+
+interface UserCreationOptions {
+  id?: string,
+  name: string,
+  email: string,
+  passcode: string
+}
 
 export default class UserSource extends DataSource {
-  context: any;
+  context: ContextInterface | undefined;
   session: Session;
 
   constructor() {
@@ -21,16 +37,19 @@ export default class UserSource extends DataSource {
    * like caches and context. We'll assign this.context to the request context
    * here, so we can know about the user making requests
    */
-  initialize(config: DataSourceConfig<any>): void | Promise<void> {
+  initialize(config: DataSourceConfig<ContextInterface>): void | Promise<void> {
     this.context = config.context
   }
 
-  async createUser({ name, email, passcode }) {
+  async createUser({ name, email, passcode }: UserCreationOptions): Promise<User> {
     const result = await this.create({ name, email, passcode });
-    return result.records[0];
+    const record = result.records[0];
+
+    const user: UserPropertiesInterface = record.get('user').properties;
+    return new User(user);
   }
 
-  async findUserById({ id }) {
+  async findUserById({ id }: { id: string }): Promise<User> {
     const result = await this.session.run('MATCH (user:User {id: $id}) RETURN user', { id });
     const record = result.records[0];
     const user: UserPropertiesInterface = record.get('user').properties;
@@ -38,9 +57,9 @@ export default class UserSource extends DataSource {
     return new User(user);
   }
 
-  async create(params) {
+  async create(params: UserCreationOptions): Promise<Result> {
     params.id = uuidv4();
 
-    return await this.session.run('CREATE (user:User $params) RETURN user', {params});
+    return this.session.run('CREATE (user:User $params) RETURN user', {params});
   }
 }

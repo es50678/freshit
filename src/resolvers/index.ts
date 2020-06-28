@@ -1,21 +1,12 @@
 const resolvers = {
   User: {
-    categories(user, args, { dataSources }) {
-      return user.getCategories();
+    categories(user, args, context) {
+      return user.categories();
     }
   },
   Mutation: {
     async createUser(parent, { name, email, passcode }, { dataSources }) {
-      const result = await dataSources.user.createUser({ name, email, passcode });
-      const user = result.get('user').properties;
-
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        categories: [],
-        durations: []
-      }
+      return await dataSources.user.createUser({ name, email, passcode });
     }
   },
   Query: {
