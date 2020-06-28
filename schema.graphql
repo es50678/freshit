@@ -58,6 +58,7 @@ type Duration {
 type Mutation {
   createCategory(name: String!): Category
   createUser(name: String! email: String!, passcode: String!): User
+  login(email: String! passcode: String!): String!
 }
 
 type Query {

@@ -3,7 +3,7 @@ import { GraphQLScalarType, Kind } from 'graphql';
 
 import Category from '../data-sources/models/category';
 import User from '../data-sources/models/user';
-import { ContextInterface, UserCreationOptions as UserArgs} from '../data-sources/user-source';
+import { ContextInterface as Context, UserCreationOptions as UserArgs} from '../data-sources/user-source';
 import Duration from '../data-sources/models/duration';
 
 const dateTimeScalar = new GraphQLScalarType({
@@ -52,15 +52,24 @@ const resolvers = {
     }
   },
   Mutation: {
-    createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: ContextInterface): Promise<User> {
+    createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {
       return dataSources.user.createUser({ name, email, passcode });
+    },
+    async login(_: undefined, { email, passcode }: UserArgs, { dataSources }: Context): Promise<string> {
+      const user = await dataSources.user.findUserByEmail({ email });
+
+      if (user.passcode == passcode) {
+        return Buffer.from(email).toString('base64');
+      }
+
+      return "UNAUTHORIZED";
     }
   },
   Query: {
-    user(_: undefined, { id }: { id: string }, { dataSources }: ContextInterface): Promise<User> {
+    user(_: undefined, { id }: { id: string }, { dataSources }: Context): Promise<User> {
       return dataSources.user.findUserById({ id });
     },
-    userByEmail(_: undefined, { email }: { email: string },  { dataSources }: ContextInterface): Promise<User> {
+    userByEmail(_: undefined, { email }: { email: string },  { dataSources }: Context): Promise<User> {
       return dataSources.user.findUserByEmail({ email });
     }
   }
