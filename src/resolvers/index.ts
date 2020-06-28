@@ -4,6 +4,7 @@ import { GraphQLScalarType, Kind } from 'graphql';
 import Category from '../data-sources/models/category';
 import User from '../data-sources/models/user';
 import { UserCreationOptions as UserArgs} from '../data-sources/user-source';
+import { CategoryCreationOptions as CategoryArgs } from '../data-sources/category-source';
 import { ContextInterface as Context } from '../data-sources/interfaces/context';
 import Duration from '../data-sources/models/duration';
 
@@ -69,7 +70,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    createCategory(_: undefined, { name }: { name: string }, { dataSources }: Context): Promise<Category> {
+    createCategory(_: undefined, { name }: CategoryArgs, { dataSources }: Context): Promise<Category> {
       return dataSources.category.createCategory({ name });
     },
     createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {

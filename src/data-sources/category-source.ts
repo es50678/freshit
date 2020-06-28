@@ -3,13 +3,17 @@ import CategoryPropertiesInterface from './models/interfaces/category-properties
 import BaseSource from './base-source';
 import {v4 as uuidv4} from 'uuid';
 
+export interface CategoryCreationOptions {
+  name: string
+}
+
 export default class CategorySource extends BaseSource {
 
   constructor() {
     super();
   }
 
-  async createCategory({ name }: { name: string }): Promise<Category> {
+  async createCategory({ name }: CategoryCreationOptions): Promise<Category> {
     const user = this.context?.loggedInUser;
     if (!user) {
       throw "NOT LOGGED IN";
