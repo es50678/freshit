@@ -69,10 +69,10 @@ const resolvers = {
     }
   },
   Mutation: {
-    createUser(_: null, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {
+    createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {
       return dataSources.user.createUser({ name, email, passcode });
     },
-    async login(_: null, { email, passcode }: UserArgs, { dataSources }: Context): Promise<string> {
+    async login(_: undefined, { email, passcode }: UserArgs, { dataSources }: Context): Promise<string> {
       const user = await dataSources.user.findUserByEmail({ email });
 
       if (user.passcode == passcode) {
@@ -83,16 +83,16 @@ const resolvers = {
     }
   },
   Query: {
-    category(_: null, { id }: { id: string }, { dataSources }: Context): Promise<Category> {
+    category(_: undefined, { id }: { id: string }, { dataSources }: Context): Promise<Category> {
       return dataSources.category.findCategoryById({ id });
     },
-    duration(_: null, { id }: { id: string }, { dataSources }: Context): Promise<Duration> {
+    duration(_: undefined, { id }: { id: string }, { dataSources }: Context): Promise<Duration> {
       return dataSources.duration.findDurationById({ id });
     },
-    user(_: null, { id }: { id: string }, { dataSources }: Context): Promise<User> {
+    user(_: undefined, { id }: { id: string }, { dataSources }: Context): Promise<User> {
       return dataSources.user.findUserById({ id });
     },
-    userByEmail(_: null, { email }: { email: string },  { dataSources }: Context): Promise<User> {
+    userByEmail(_: undefined, { email }: { email: string },  { dataSources }: Context): Promise<User> {
       return dataSources.user.findUserByEmail({ email });
     }
   }

@@ -3,7 +3,7 @@ import {ContextInterface} from './interfaces/context';
 import UniqueSessions from './unique-sessions';
 
 export default abstract class BaseSource extends UniqueSessions implements DataSource {
-  context: ContextInterface | undefined;
+  context: ContextInterface | null = null;
 
   /**
    * This is a function that gets called by ApolloServer when being setup.
@@ -12,6 +12,6 @@ export default abstract class BaseSource extends UniqueSessions implements DataS
    * here, so we can know about the user making requests
    */
   initialize(config: DataSourceConfig<ContextInterface>): void | Promise<void> {
-    this.context = config.context
+    this.context = config.context;
   }
 }
