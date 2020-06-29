@@ -7,7 +7,7 @@ import { UserCreationOptions as UserArgs} from '../data-sources/user-source';
 import { CategoryCreationOptions as CategoryArgs } from '../data-sources/category-source';
 import { ContextInterface as Context } from '../data-sources/interfaces/context';
 import Duration from '../data-sources/models/duration';
-import { DurationCreationOptions as DurationArgs} from '../data-sources/duration-source';
+import {DurationEndOptions, DurationStartOptions as DurationArgs} from '../data-sources/duration-source';
 
 const dateTimeScalar = new GraphQLScalarType({
   name: 'DateTime',
@@ -39,8 +39,8 @@ const timeDurationScalar = new GraphQLScalarType({
     return moment.duration(value);
   },
   parseLiteral(ast) { // gets invoked to parse client input that was passed inline in the query
-    if (ast.kind === Kind.INT) {
-      return parseInt(ast.value, 10); // ast value is always in string format
+    if (ast.kind === Kind.STRING) {
+      return ast.value; // ast value is always in string format
     }
     return null;
   },
@@ -79,6 +79,9 @@ const resolvers = {
     },
     createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {
       return dataSources.user.createUser({ name, email, passcode });
+    },
+    endDuration(_: undefined, { id, end, length }: DurationEndOptions, { dataSources }: Context): Promise<Duration> {
+      return dataSources.duration.endDuration({ id, end, length });
     },
     async login(_: undefined, { email, passcode }: UserArgs, { dataSources }: Context): Promise<string> {
       const user = await dataSources.user.findUserByEmail({ email });

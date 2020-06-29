@@ -4,15 +4,42 @@ import BaseSource from './base-source';
 import {v4 as uuidv4} from 'uuid';
 import {int} from 'neo4j-driver'
 
-export interface DurationCreationOptions {
+export interface DurationStartOptions {
   start: number;
   categoryID: string;
+}
+
+export interface DurationEndOptions {
+  id: string;
+  end: number;
+  length: string;
 }
 
 export default class DurationSource extends BaseSource {
 
   constructor() {
     super();
+  }
+
+  async endDuration({ id, end, length }: DurationEndOptions): Promise<Duration> {
+    const user = this.context?.loggedInUser;
+    if (!user) {
+      throw "NOT LOGGED IN";
+    }
+
+    const query = `
+      MATCH (u:User {id: $userId})-[:RECORDS]->(duration:Duration {id: $id})
+      SET duration.end = datetime({epochSeconds: $end})
+      SET duration.length = duration($length)
+      RETURN duration;
+    `;
+
+    const result = await this.session
+      .run(query, { userId: user.id, end: int(end), length, id });
+    const record = result.records[0];
+    const duration: DurationPropertiesInterface = record.get('duration').properties;
+
+    return new Duration(duration);
   }
 
   async findDurationById({ id }: { id: string }): Promise<Duration> {
@@ -23,7 +50,7 @@ export default class DurationSource extends BaseSource {
     return new Duration(duration);
   }
 
-  async startDuration({ start, categoryID }: DurationCreationOptions): Promise<Duration> {
+  async startDuration({ start, categoryID }: DurationStartOptions): Promise<Duration> {
     const user = this.context?.loggedInUser;
     if (!user) {
       throw "NOT LOGGED IN";
