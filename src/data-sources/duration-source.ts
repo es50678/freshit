@@ -16,10 +16,6 @@ export interface DurationEndOptions {
 
 export default class DurationSource extends BaseSource {
 
-  constructor() {
-    super();
-  }
-
   async endDuration({ id, end }: DurationEndOptions): Promise<Duration> {
     const user = this.context?.loggedInUser;
     if (!user) {

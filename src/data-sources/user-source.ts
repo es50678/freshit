@@ -14,10 +14,6 @@ export interface UserCreationOptions {
 
 export default class UserSource extends BaseSource {
 
-  constructor() {
-    super();
-  }
-
   async createUser({ name, email, passcode }: UserCreationOptions): Promise<User> {
     const result = await this.create({ name, email, passcode });
     const record = result.records[0];

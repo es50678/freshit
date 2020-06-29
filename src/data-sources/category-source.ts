@@ -9,10 +9,6 @@ export interface CategoryCreationOptions {
 
 export default class CategorySource extends BaseSource {
 
-  constructor() {
-    super();
-  }
-
   async createCategory({ name }: CategoryCreationOptions): Promise<Category> {
     const user = this.context?.loggedInUser;
     if (!user) {
