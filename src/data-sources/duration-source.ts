@@ -33,8 +33,7 @@ export default class DurationSource extends BaseSource {
       RETURN dur;
     `;
 
-    const result = await this.session
-      .run(query, { userId: user.id, end: int(end), id });
+    const result = await this.session.run(query, { userId: user.id, end: int(end), id });
     const record = result.records[0];
     const duration: DurationPropertiesInterface = record.get('dur').properties;
 
