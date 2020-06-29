@@ -4,11 +4,12 @@ import User from './user';
 import UserPropertiesInterface from './interfaces/user-properties';
 import Category from './category';
 import CategoryPropertiesInterface from './interfaces/category-properties';
+import {DateTime, Duration as DurationType} from 'neo4j-driver';
 
 export default class Duration extends Base implements DurationPropertiesInterface{
-  end: string;
-  length: string;
-  start: string;
+  end: DateTime;
+  length: DurationType;
+  start: DateTime;
   #user: User | null = null;
   #category: Category | null = null;
 
