@@ -90,7 +90,7 @@ const resolvers = {
       return "UNAUTHORIZED";
     },
     startDuration(_: undefined, { start, categoryID }: DurationArgs, { dataSources }: Context): Promise<Duration> {
-      return dataSources.duration.createDuration({ start, categoryID });
+      return dataSources.duration.startDuration({ start, categoryID });
     }
   },
   Query: {

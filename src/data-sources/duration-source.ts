@@ -15,7 +15,15 @@ export default class DurationSource extends BaseSource {
     super();
   }
 
-  async createDuration({ start, categoryID }: DurationCreationOptions): Promise<Duration> {
+  async findDurationById({ id }: { id: string }): Promise<Duration> {
+    const result = await this.session.run('MATCH (duration:Duration {id: $id}) RETURN duration', { id });
+    const record = result.records[0];
+    const duration: DurationPropertiesInterface = record.get('duration').properties;
+
+    return new Duration(duration);
+  }
+
+  async startDuration({ start, categoryID }: DurationCreationOptions): Promise<Duration> {
     const user = this.context?.loggedInUser;
     if (!user) {
       throw "NOT LOGGED IN";
@@ -28,14 +36,6 @@ export default class DurationSource extends BaseSource {
     `;
     const result = await this.session
       .run(query, { userId: user.id, id: uuidv4(), start: int(start), categoryID});
-    const record = result.records[0];
-    const duration: DurationPropertiesInterface = record.get('duration').properties;
-
-    return new Duration(duration);
-  }
-
-  async findDurationById({ id }: { id: string }): Promise<Duration> {
-    const result = await this.session.run('MATCH (duration:Duration {id: $id}) RETURN duration', { id });
     const record = result.records[0];
     const duration: DurationPropertiesInterface = record.get('duration').properties;
 
