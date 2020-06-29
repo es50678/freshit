@@ -7,6 +7,7 @@ import { UserCreationOptions as UserArgs} from '../data-sources/user-source';
 import { CategoryCreationOptions as CategoryArgs } from '../data-sources/category-source';
 import { ContextInterface as Context } from '../data-sources/interfaces/context';
 import Duration from '../data-sources/models/duration';
+import { DurationCreationOptions as DurationArgs} from '../data-sources/duration-source';
 
 const dateTimeScalar = new GraphQLScalarType({
   name: 'DateTime',
@@ -19,7 +20,10 @@ const dateTimeScalar = new GraphQLScalarType({
   },
   parseLiteral(ast) { // gets invoked to parse client input that was passed inline in the query
     if (ast.kind === Kind.INT) {
-      return parseInt(ast.value, 10); // ast value is always in string format
+      return parseInt(ast.value); // ast value is always in string format
+    }
+    if (ast.kind === Kind.STRING) {
+      return parseInt(ast.value); // ast value is always in string format
     }
     return null;
   },
@@ -84,6 +88,9 @@ const resolvers = {
       }
 
       return "UNAUTHORIZED";
+    },
+    startDuration(_: undefined, { start, categoryID }: DurationArgs, { dataSources }: Context): Promise<Duration> {
+      return dataSources.duration.createDuration({ start, categoryID });
     }
   },
   Query: {
