@@ -80,8 +80,8 @@ const resolvers = {
     createUser(_: undefined, { name, email, passcode }: UserArgs, { dataSources }: Context): Promise<User> {
       return dataSources.user.createUser({ name, email, passcode });
     },
-    endDuration(_: undefined, { id, end, length }: DurationEndOptions, { dataSources }: Context): Promise<Duration> {
-      return dataSources.duration.endDuration({ id, end, length });
+    endDuration(_: undefined, { id, end }: DurationEndOptions, { dataSources }: Context): Promise<Duration> {
+      return dataSources.duration.endDuration({ id, end });
     },
     async login(_: undefined, { email, passcode }: UserArgs, { dataSources }: Context): Promise<string> {
       const user = await dataSources.user.findUserByEmail({ email });

@@ -58,7 +58,7 @@ type Duration {
 type Mutation {
   createCategory(name: String!): Category
   createUser(name: String! email: String!, passcode: String!): User
-  endDuration(id: ID! end: DateTime! length: TimeDuration): Duration!
+  endDuration(id: ID! end: DateTime!): Duration!
   login(email: String! passcode: String!): String!
   startDuration(start: DateTime!, categoryID: String! ): Duration!
 }

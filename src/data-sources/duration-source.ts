@@ -12,7 +12,6 @@ export interface DurationStartOptions {
 export interface DurationEndOptions {
   id: string;
   end: number;
-  length: string;
 }
 
 export default class DurationSource extends BaseSource {
@@ -21,23 +20,23 @@ export default class DurationSource extends BaseSource {
     super();
   }
 
-  async endDuration({ id, end, length }: DurationEndOptions): Promise<Duration> {
+  async endDuration({ id, end }: DurationEndOptions): Promise<Duration> {
     const user = this.context?.loggedInUser;
     if (!user) {
       throw "NOT LOGGED IN";
     }
 
     const query = `
-      MATCH (u:User {id: $userId})-[:RECORDS]->(duration:Duration {id: $id})
-      SET duration.end = datetime({epochSeconds: $end})
-      SET duration.length = duration($length)
-      RETURN duration;
+      MATCH (u:User {id: $userId})-[:RECORDS]->(dur:Duration {id: $id})
+      SET dur.end = datetime({epochSeconds: $end})
+      SET dur.length = duration.between(dur.start, dur.end)
+      RETURN dur;
     `;
 
     const result = await this.session
-      .run(query, { userId: user.id, end: int(end), length, id });
+      .run(query, { userId: user.id, end: int(end), id });
     const record = result.records[0];
-    const duration: DurationPropertiesInterface = record.get('duration').properties;
+    const duration: DurationPropertiesInterface = record.get('dur').properties;
 
     return new Duration(duration);
   }
