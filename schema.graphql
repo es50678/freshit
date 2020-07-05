@@ -56,10 +56,19 @@ type Duration {
 }
 
 type Mutation {
+  """
+  requires authentication
+  """
   createCategory(name: String!): Category
   createUser(name: String! email: String!, passcode: String!): User
+  """
+  requires authentication
+  """
   endDuration(id: ID! end: DateTime!): Duration!
   login(email: String! passcode: String!): String!
+  """
+  requires authentication
+  """
   startDuration(start: DateTime!, categoryID: String! ): Duration!
 }
 
